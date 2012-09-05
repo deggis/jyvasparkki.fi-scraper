@@ -25,11 +25,25 @@ handle_file()
 }
 
 
-# Real name like P-Sokos for psokos.
-REALNAME=${names["$1"]}
+import_all()
+{
+    # Single garage db's
+    for h in $HOUSES;
+    do
+        # Real name like P-Sokos for psokos.
+        REALNAME=${names["$h"]}
 
-for f in `ls datasets/2012*`
-do
-    DATA=`handle_file "$f" $REALNAME`
-    rrdupdate $1.rrd $DATA
-done
+        for f in `ls $RAW_DATA_DIR/2012*`
+        do
+            DATA=`handle_file "$f" $REALNAME`
+            rrdupdate $DB_DIR/$h.rrd $DATA
+            echo "rrdupdate $DB_DIR/$h.rrd $DATA"
+        done
+    done
+
+    # TODO: Import collection
+}
+
+import_all
+
+

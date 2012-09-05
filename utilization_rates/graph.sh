@@ -9,13 +9,14 @@ fi
 
 COLOR="3030B1"
 
+
 do_graph()
 {
     NAME=${names["$1"]}
     CAPACITY=${limits["$1"]}
 
-    rrdtool graph "$1_day.png" \
-        DEF:val=$1.rrd:$1:MIN \
+    rrdtool graph "$IMAGE_DIR/$1_day.png" \
+        DEF:val=$DB_DIR/$1.rrd:$1:MIN \
         CDEF:used=$CAPACITY,val,- \
         -s end-86400s \
         -e now \
@@ -26,8 +27,8 @@ do_graph()
         "COMMENT: $NAME\: käytetyt parkkiruudut, 24 tuntia." \
         "COMMENT: $NAME\: tilavuus $CAPACITY."
 
-    rrdtool graph "$1_week.png" \
-        DEF:val=$1.rrd:$1:MIN \
+    rrdtool graph "$IMAGE_DIR/$1_week.png" \
+        DEF:val=$DB_DIR/$1.rrd:$1:MIN \
         CDEF:used=$CAPACITY,val,- \
         -s end-604800s \
         -e now \
@@ -38,8 +39,8 @@ do_graph()
         "COMMENT: $NAME\: käytetyt parkkiruudut, 7 päivää, 3 tunnin maksimit." \
         "COMMENT: $NAME\: tilavuus $CAPACITY."
 
-    rrdtool graph "$1_month.png" \
-        DEF:val=$1.rrd:$1:MIN \
+    rrdtool graph "$IMAGE_DIR/$1_month.png" \
+        DEF:val=$DB_DIR/$1.rrd:$1:MIN \
         CDEF:used=$CAPACITY,val,- \
         -s end-2592000s \
         -e now \
@@ -53,10 +54,9 @@ do_graph()
 
 graph_all()
 {
-    HOUSES="pasema pcygnaeus pkolmikulma pmatkakeskus ppaviljonki2 psokos ptori"
     for h in $HOUSES;
     do
-        if [ -f "$h.rrd" ]
+        if [ -f "$DB_DIR/$h.rrd" ]
         then
             echo "$h exists, creating graph."
             do_graph $h

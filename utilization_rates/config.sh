@@ -1,4 +1,8 @@
 # Requires bash >= 4
+
+# Garages with data available
+HOUSES="pasema pcygnaeus pkolmikulma pmatkakeskus ppaviljonki2 psokos ptori"
+
 declare -A limits
 limits=(
     ["pasema"]="460"
@@ -25,4 +29,7 @@ names=(
     ["ptori"]="P-Tori"
     )
 
-
+DIR=/home/deggis/proj/misc.jyvasparkki/utilization_rates
+IMAGE_DIR=$DIR/images
+DB_DIR=$DIR/dbs
+RAW_DATA_DIR=$DIR/rawdata

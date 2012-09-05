@@ -1,5 +1,13 @@
 #!/bin/bash
 
+if [ -f config.sh ]; then
+    . config.sh
+else
+    echo "Missing config!"
+fi
+
+
+
 START=1345495899
 HALF_HOUR=1800
 
@@ -11,7 +19,15 @@ HALF_HOUR=1800
 
 do_single_db()
 {
-    rrdtool create $1.rrd \
+    FILE=$DB_DIR/$1.rrd
+    if [ -f $FILE ]
+    then
+        echo "$FILE exists!"
+    else
+        echo "Creating $FILE.."
+    fi
+
+    rrdtool create $FILE \
         --start $START \
         --step $HALF_HOUR \
         DS:$1:GAUGE:3600:1:1000 \
@@ -22,7 +38,15 @@ do_single_db()
 
 do_collection_db()
 {
-    rrdtool create collection.rrd \
+    FILE=$DB_DIR/collection.rrd
+    if [ -f $FILE ]
+    then
+        echo "$FILE exists!"
+    else
+        echo "Creating $FILE.."
+    fi
+
+    rrdtool create $FILE \
         --start $START \
         --step $HALF_HOUR \
         DS:pasema:GAUGE:3600:0:1000 \
@@ -38,11 +62,15 @@ do_collection_db()
 
 }
 
-case "$1" in
-    collection)
-        do_collection_db
-        ;;
-    *)
-        do_single_db $1
-        ;;
-esac
+
+create_all()
+{
+    for h in $HOUSES;
+    do
+        do_single_db $h
+    done
+
+    do_collection_db
+}
+
+create_all
