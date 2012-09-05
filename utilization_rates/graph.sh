@@ -8,7 +8,7 @@ fi
 
 
 COLOR="3030B1"
-
+DATESTR=`date|sed 's/:/\\\\:/g'`
 
 do_graph()
 {
@@ -25,7 +25,8 @@ do_graph()
         --rigid \
         "AREA:used#$COLOR" \
         "COMMENT: $NAME\: käytetyt parkkiruudut, 24 tuntia." \
-        "COMMENT: $NAME\: tilavuus $CAPACITY."
+        "COMMENT: $NAME\: tilavuus $CAPACITY." \
+        "COMMENT: $DATESTR"
 
     rrdtool graph "$IMAGE_DIR/$1_week.png" \
         DEF:val=$DB_DIR/$1.rrd:$1:MIN \
@@ -37,7 +38,8 @@ do_graph()
         --rigid \
         "AREA:used#$COLOR" \
         "COMMENT: $NAME\: käytetyt parkkiruudut, 7 päivää, 3 tunnin maksimit." \
-        "COMMENT: $NAME\: tilavuus $CAPACITY."
+        "COMMENT: $NAME\: tilavuus $CAPACITY." \
+        "COMMENT: $DATESTR"
 
     rrdtool graph "$IMAGE_DIR/$1_month.png" \
         DEF:val=$DB_DIR/$1.rrd:$1:MIN \
@@ -49,7 +51,8 @@ do_graph()
         --rigid \
         "AREA:used#$COLOR" \
         "COMMENT: $NAME\: käytetyt parkkiruudut, 30 päivää, 6 tunnin maksimit." \
-        "COMMENT: $NAME\: tilavuus $CAPACITY."
+        "COMMENT: $NAME\: tilavuus $CAPACITY." \
+        "COMMENT: $DATESTR"
 }
 
 graph_all()

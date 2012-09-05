@@ -17,13 +17,21 @@ parse_date()
 
 # parse_date "20120822000001_tilanne"
 
-handle_file()
+parse_file()
 {
     SECS=`parse_date $1`
     FREE=`grep "$2" $1|sed -r 's/.*,([0-9]+)/\1/'`
     echo "$SECS:$FREE"
 }
 
+# arg1 psokos, arg2 rawdatafile
+handle_file()
+{
+    REALNAME=${names["$1"]}
+    DATA=`parse_file "$2" $REALNAME`
+    rrdupdate $DB_DIR/$1.rrd $DATA
+    echo "rrdupdate $DB_DIR/$1.rrd $DATA"
+}
 
 import_all()
 {
@@ -31,19 +39,26 @@ import_all()
     for h in $HOUSES;
     do
         # Real name like P-Sokos for psokos.
-        REALNAME=${names["$h"]}
 
         for f in `ls $RAW_DATA_DIR/2012*`
         do
-            DATA=`handle_file "$f" $REALNAME`
-            rrdupdate $DB_DIR/$h.rrd $DATA
-            echo "rrdupdate $DB_DIR/$h.rrd $DATA"
+            handle_file $h $f
         done
     done
 
     # TODO: Import collection
 }
 
-import_all
+case "$1" in
+    all)
+        import_all
+        ;;
+    *)
+        for h in $HOUSES;
+        do
+            handle_file $h $1
+        done
+        ;;
+esac
 
 
