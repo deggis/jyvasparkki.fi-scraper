@@ -11,8 +11,8 @@ Status
 ------
 
 Well, I wanted to learn Tobias Oetiker's RRDTool and some
-basic bash hacking. This first attempt wasn't wery DRY
-(don't repeat yourself), very wet actially. :-)
+basic bash hacking. This first attempt wasn't very DRY
+(don't repeat yourself), very wet actually. :-)
 
 
 Author
