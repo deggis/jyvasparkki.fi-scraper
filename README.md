@@ -7,6 +7,14 @@ Jyväs-Parkki's parking garages in Jyväskylä, Finland.
 The resulting graphs can be viewed from (page in Finnish):
 http://deggis.iki.fi/p/jyvasparkki/
 
+Status
+------
+
+Well, I wanted to learn Tobias Oetiker's RRDTool and some
+basic bash hacking. This first attempt wasn't wery DRY
+(don't repeat yourself), very wet actially. :-)
+
+
 Author
 ------
 
