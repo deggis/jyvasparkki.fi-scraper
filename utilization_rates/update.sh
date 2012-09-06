@@ -4,6 +4,7 @@ if [ -f config.sh ]; then
     . config.sh
 else
     echo "Missing config!"
+    exit
 fi
 
 # Returns seconds from epoch from given strings
