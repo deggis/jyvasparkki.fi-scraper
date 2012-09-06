@@ -7,6 +7,13 @@ Jyväs-Parkki's parking garages in Jyväskylä, Finland.
 The resulting graphs can be viewed from (page in Finnish):
 http://deggis.iki.fi/p/jyvasparkki/
 
+Author
+------
+
+Heikki Salo (aka deggis)
+
+heikki.ao.salo aet iki dot fi
+
 
 Changelog
 ---------
