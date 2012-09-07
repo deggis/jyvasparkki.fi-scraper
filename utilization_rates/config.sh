@@ -16,6 +16,20 @@ limits=(
     ["ptori"]="485"
     )
 
+declare -A colors
+colors=(
+    ["pasema"]="65ff00"
+    ["pcygnaeus"]="FFdc00"       
+    ["pkolmikulma"]="FF5a00"     
+    ["pmatkakeskus"]="FF0080"
+    ["ppaviljonki1"]="FF06F0"
+    ["ppaviljonki2"]="00ffa8"    
+    ["psairaala"]="00b4ff"
+    ["psokos"]="0022ff"
+    ["ptori"]="9b0000"
+    )
+
+
 declare -A names
 names=(
     ["pasema"]="P-Asema"
