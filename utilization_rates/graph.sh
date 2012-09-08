@@ -66,7 +66,7 @@ collection()
         UPPER=7
     fi
 
-    rrdtool graph "collection-$3_$1.png" \
+    rrdtool graph "$IMAGE_DIR/collection-$3_$1.png" \
         DEF:pasemaval=$DB:pasema:MIN \
         DEF:pcygnaeusval=$DB:pcygnaeus:MIN \
         DEF:pkolmikulmaval=$DB:pkolmikulma:MIN \
