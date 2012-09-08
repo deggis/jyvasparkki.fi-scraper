@@ -4,7 +4,7 @@ if [ -f config.sh ]; then
     . config.sh
 else
     echo "Missing config!"
-    exit
+    exit 1
 fi
 
 # Returns seconds from epoch from given strings
@@ -18,36 +18,46 @@ parse_date()
 
 # parse_date "20120822000001_tilanne"
 
+# arg1 houseid, arg2 rawdatafile
 parse_file()
 {
-    SECS=`parse_date $1`
-    FREE=`grep "$2" $1|sed -r 's/.*,([0-9]+)/\1/'`
+    SECS=`parse_date "$2"`
+    FREE=`parse_free $1 "$2"`
     echo "$SECS:$FREE"
 }
 
-# arg1 psokos, arg2 rawdatafile
-handle_file()
+# arg1 houseid, arg2 rawdatafile
+parse_free()
 {
     REALNAME=${names["$1"]}
-    DATA=`parse_file "$2" $REALNAME`
-    rrdupdate $DB_DIR/$1.rrd $DATA
-    echo "rrdupdate $DB_DIR/$1.rrd $DATA"
+    FREE=`grep "$REALNAME" $2|sed -r 's/.*,([0-9]+)/\1/'`
+    echo $FREE
 }
+
+# updates collection, arg1 file
+handle_file()
+{
+    SECS=`parse_date "$1"`
+    PASEMA=`parse_free pasema "$1"`
+    PCYGNAEUS=`parse_free pcygnaeus "$1"`
+    PKOLMIKULMA=`parse_free pkolmikulma "$1"`
+    PMATKAKESKUS=`parse_free pmatkakeskus "$1"`
+    PPAVILJONKI2=`parse_free ppaviljonki2 "$1"`
+    PSOKOS=`parse_free psokos "$1"`
+    PTORI=`parse_free ptori "$1"`
+    rrdupdate $DB \
+        -t pasema:pcygnaeus:pkolmikulma:pmatkakeskus:ppaviljonki2:psokos:ptori \
+        $SECS:$PASEMA:$PCYGNAEUS:$PKOLMIKULMA:$PMATKAKESKUS:$PPAVILJONKI2:$PSOKOS:$PTORI
+    echo "rrdupdate $DB updated with $1's contents"
+}
+
 
 import_all()
 {
-    # Single garage db's
-    for h in $HOUSES;
+    for f in `ls $RAW_DATA_DIR/2012*`
     do
-        # Real name like P-Sokos for psokos.
-
-        for f in `ls $RAW_DATA_DIR/2012*`
-        do
-            handle_file $h $f
-        done
+        handle_file $f
     done
-
-    # TODO: Import collection
 }
 
 case "$1" in
@@ -61,5 +71,3 @@ case "$1" in
         done
         ;;
 esac
-
-

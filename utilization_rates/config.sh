@@ -45,5 +45,5 @@ names=(
 
 DIR=/home/deggis/proj/misc.jyvasparkki/utilization_rates
 IMAGE_DIR=$DIR/images
-DB_DIR=$DIR/dbs
+DB=$DIR/dbs/collection.rrd
 RAW_DATA_DIR=$DIR/rawdata
