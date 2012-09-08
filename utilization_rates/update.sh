@@ -84,9 +84,6 @@ case "$1" in
         import_all
         ;;
     *)
-        for h in $HOUSES;
-        do
-            handle_file $1
-        done
+        handle_file $1
         ;;
 esac
